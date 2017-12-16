@@ -15,4 +15,7 @@ django-admin startapp <appName>
 eg. django-admin startapp sampleModels
 7. Add the newly created apps and third party apps installed using pip to the settings.py under the INSTALLED_APPS
 8. Add the necessary changes to the Database section in the settings.py file
-
+9. To add a user to the postgresql use the command
+CREATE USER djangoUser WITH PASSWORD 'djangoPassword';
+10. Create a database with owner
+CREATE DATABASE djangoSamples WITH OWNER djangoUser;

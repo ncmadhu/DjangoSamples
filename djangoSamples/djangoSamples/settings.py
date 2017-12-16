@@ -92,8 +92,8 @@ WSGI_APPLICATION = 'djangoSamples.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangoSamples',
-        'USER': 'djangoUser',
+        'NAME': 'djangosamples',
+        'USER': 'djangouser',
         'PASSWORD': 'djangoPassword',
         'HOST': 'localhost',
         'PORT': '5432',

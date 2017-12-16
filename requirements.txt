@@ -4,3 +4,4 @@ django-forms-bootstrap
 django_tables2
 django-crispy-forms
 psycopg2
+django-timezone-field
