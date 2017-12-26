@@ -1,17 +1,43 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import json
-from datetime import datetime, timedelta
 from celery.schedules import crontab
+from datetime import datetime, timedelta
 
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .tasks import test
+from .forms import AddTaskForm
 
 # Create your views hereo.
 
 def home(request):
+    return render(request, "login_home.html")
+
+@method_decorator(login_required, name='dispatch')
+class Addtask(CreateView):
+    form_class = AddTaskForm
+    template_name = 'schedulerexample/add_task.html'
+    success_url = reverse_lazy('listtasks')
+
+def listtasks(request):
+    return render(request, "login_home.html")
+
+def addperiodictask(request):
+    return render(request, "login_home.html")
+
+def addonetimetask(request):
+    return render(request, "login_home.html")
+
+def periodictaskstatus(request):
+    return render(request, "login_home.html")
+
+def onetimetaskstatus(request):
     return render(request, "login_home.html")
 
 def tasks(request):
