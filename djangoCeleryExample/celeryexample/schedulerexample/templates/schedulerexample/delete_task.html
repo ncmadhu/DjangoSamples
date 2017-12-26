@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load bootstrap_tags %}
+{% block title %}Tasks{% endblock title %}
+{% block content %}
+<div class="page-header">
+        <h3>
+                Delete task available for scheduling
+        </h3>
+	<p>Are you sure you want to delete the task: {{ celerytask.task_name }}?</p>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input type="submit" class='btn-danger' action="" value="Yes, delete." />
+	</form>
+</div>
+{% endblock %}
+

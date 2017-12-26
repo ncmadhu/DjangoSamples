@@ -13,6 +13,8 @@ Urls for task
 
 urlpatterns += [
         url(r'^addtask$', Addtask.as_view(), name='addtask'),
+        url(r'^updatetask/(?P<pk>\d+)/$', Updatetask.as_view(), name='updatetask'),
+        url(r'^deletetask/(?P<pk>\d+)/$', Deletetask.as_view(), name='deletetask'),
         url(r'^listtasks$', listtasks, name='listtasks'),
         ]
 """

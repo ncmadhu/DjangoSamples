@@ -42,3 +42,24 @@ class AddTaskForm(TaskForm):
                     Field('task_name', placeholder='Enter the name of the task'),
                     Field('task_description', placeholder='Enter the description of the task'),
                     Field('task_args', widget=forms.Textarea(), rows=3, placeholder='Enter the arguements for the task as a list item'),))
+
+class UpdateTaskForm(TaskForm):
+    """
+    Form class to Add a task to DB
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateTaskForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-update-task-form'
+        self.helper.form_method = 'post'
+        self.helper.form_action = ''
+        self.helper.form_class = 'bootstrap-horizontal'
+        self.helper.add_input(Submit('update', 'Update', css_class='btn-primary'))
+        self.helper.add_input(Submit('delete', 'Delete', css_class='btn-danger'))
+
+        self.helper.layout = Layout(
+                Fieldset('Update/Delete task',
+                    Field('task_name', placeholder='Enter the name of the task'),
+                    Field('task_description', placeholder='Enter the description of the task'),
+                    Field('task_args', widget=forms.Textarea(), rows=3, placeholder='Enter the arguements for the task as a list item'),))

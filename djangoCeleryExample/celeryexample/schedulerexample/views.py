@@ -5,14 +5,18 @@ from celery.schedules import crontab
 from datetime import datetime, timedelta
 
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
+from django_tables2 import RequestConfig
+from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .tasks import test
-from .forms import AddTaskForm
+from .models import CeleryTask
+from .tables import CeleryTaskTable
+from .forms import AddTaskForm, UpdateTaskForm
 
 # Create your views hereo.
 
@@ -25,8 +29,32 @@ class Addtask(CreateView):
     template_name = 'schedulerexample/add_task.html'
     success_url = reverse_lazy('listtasks')
 
+@method_decorator(login_required, name='dispatch')
+class Updatetask(UpdateView):
+    model =  CeleryTask
+    form_class = UpdateTaskForm
+    template_name = 'schedulerexample/add_task.html'
+    success_url = reverse_lazy('listtasks')
+
+    def post(self, request, *args, **kwargs):
+        print request.POST
+        if 'delete' in request.POST:
+            self.object = self.get_object()
+            return HttpResponseRedirect(reverse('deletetask', kwargs={'pk': self.object.pk}))
+        else:
+            return super(Updatetask, self).post(request, *args, **kwargs)
+
+@method_decorator(login_required, name='dispatch')
+class Deletetask(DeleteView):
+    model =  CeleryTask
+    template_name = 'schedulerexample/delete_task.html'
+    success_url = reverse_lazy('listtasks')
+
+@login_required
 def listtasks(request):
-    return render(request, "login_home.html")
+    table = CeleryTaskTable(CeleryTask.objects.all())
+    RequestConfig(request).configure(table)
+    return render(request, 'schedulerexample/list_task.html', {'table': table})
 
 def addperiodictask(request):
     return render(request, "login_home.html")
