@@ -40,6 +40,7 @@ INBUILT_APPS = [
 ]
 
 PROJECT_APPS = [
+        'login.apps.LoginConfig',
         'schedulerexample.apps.SchedulerexampleConfig',
         ]
 
@@ -50,6 +51,7 @@ THIRD_PARTY_APPS = [
         'timezone_field',
         'crispy_forms',
         'django_celery_beat',
+        'django_celery_results',
         ]
 
 INSTALLED_APPS = INBUILT_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -93,7 +95,7 @@ WSGI_APPLICATION = 'celeryexample.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangosamples',
+        'NAME': 'celeryexample',
         'USER': 'djangouser',
         'PASSWORD': 'djangoPassword',
         'HOST': 'localhost',
@@ -139,3 +141,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+LOGIN_URL = '/users/login/'
+LOGOUT_URL = '/users/logout/'
+
+AUTH_USER_MODEL = 'login.User'
+
+# RabbitMQ broker settings
+BROKER_URL = 'pyamqp://djangouser:djangoPassword@127.0.0.1:5672/djangohost'
+BROKER_POOL_LIMI = 8 # default is 10
+#CELERY_RESULT_BACKEND = 'db+postgresql://djangouser:djangoPassword@127.0.0.1/celeryresult'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_IGNORE_RESULT = False
+CELERY_TRACK_STARTED = True
+CELERY_STORE_ERRORS_EVEN_IF_INGORED = True

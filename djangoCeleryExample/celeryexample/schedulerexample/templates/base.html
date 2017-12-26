@@ -1,0 +1,85 @@
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>{% block title %}{% endblock title %} - Basic Bot UI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--css-->
+		{% bootstrap_css %}
+		{% block page_css %}{% endblock %}
+		<!-- Add additional CSS in static file -->
+                {% load static %}
+                <link rel="stylesheet" href="{% static 'css/additional.css' %}">
+	</head>
+	<body>
+		<nav class ="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<strong class="navbar-brand">Basic UI</strong>
+				</div>
+				<ul class="nav navbar-nav navbar-left">
+					<li class="active"><a href="{% url 'home' %}">Home</a></li>
+                        	</ul>
+				{% if user.is_authenticated %}
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }}
+							<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="{% url 'logout' %}">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+				{% endif %}
+			</div>
+		</nav>
+		<div id="wrapper">
+			<nav class="navbar navbar-default sidebar" role="navigation">
+				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href={% url 'home' %}>Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks<span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a>
+							<ul class="dropdown-menu forAnimate" role="menu">
+								<li><a href="#">Add task</a></li>
+								<li><a href="#">List tasks</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Scheduling<span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a>
+							<ul class="dropdown-menu forAnimate" role="menu">
+								<li><a href="#">Schedule Periodic task</a></li>
+								<li><a href="#">Schedule One time task</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Monitoring<span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-book"></span></a>
+							<ul class="dropdown-menu forAnimate" role="menu">
+								<li><a href="#">Periodic tasks</a></li>
+								<li><a href="#">One time task</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div class="container main">
+				{% if messages %}
+				{% for message in messages %}
+				<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					{{ message }}
+				</div>
+				{% endfor %}
+				{% endif %}
+				{% block content %}{% endblock content %}
+				<footer>
+					<p>&copy; BOT UI DJANGO</p>
+				</footer>
+			</div>
+		</div>
+		{% bootstrap_javascript jquery=1 %}
+		{% block page_js %}{% endblock %}
+	</body>
+</html>

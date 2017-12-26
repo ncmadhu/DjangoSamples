@@ -7,3 +7,4 @@ psycopg2
 django-timezone-field
 celery
 django-celery-beat
+django-celery-results

@@ -1,0 +1,14 @@
+{% extends "login_base.html" %}
+{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
+{% block title %}User Registration{% endblock %}
+{% block head %}User Registration{% endblock %}
+{% block content %}
+	<div class="col-md-6">
+		<div class="well">
+    		{% crispy form %}
+		</div>
+		<a href="/users/login/">Login</a>
+	</div>
+{% endblock %}
+
