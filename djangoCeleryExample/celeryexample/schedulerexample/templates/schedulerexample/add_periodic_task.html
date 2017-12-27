@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+{% block title %}Tasks{% endblock %}
+{% block content %}
+<div class='col-md-10 col-md-offset-1'>
+	{% crispy form %}
+</div>
+{% endblock %}
+{% block page_js %}
+<script type="text/javascript">
+$(function() {
+  $('#id_frequency').change(function(){
+	  if ($(this).val() == 0) {
+		  $('#id_time').prop('disabled', false);
+	  } else {
+		  $('#id_time').prop('disabled', true);
+	  }
+  });
+  $("select#id_frequency").change();
+});
+</script>
+{% endblock %}

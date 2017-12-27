@@ -16,7 +16,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .tasks import test
 from .models import CeleryTask
 from .tables import CeleryTaskTable
-from .forms import AddTaskForm, UpdateTaskForm
+from .forms import AddTaskForm, UpdateTaskForm, SchedulePeriodicTaskForm
 
 # Create your views hereo.
 
@@ -56,8 +56,17 @@ def listtasks(request):
     RequestConfig(request).configure(table)
     return render(request, 'schedulerexample/list_task.html', {'table': table})
 
+@login_required
 def addperiodictask(request):
-    return render(request, "login_home.html")
+    if request.method == 'POST':
+        form = SchedulePeriodicTaskForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('listtasks'))
+    else:
+        form = SchedulePeriodicTaskForm
+    table = CeleryTaskTable(CeleryTask.objects.all())
+    RequestConfig(request).configure(table)
+    return render(request, 'schedulerexample/add_periodic_task.html', {'form' : form, 'table': table})
 
 def addonetimetask(request):
     return render(request, "login_home.html")
