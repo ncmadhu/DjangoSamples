@@ -53,7 +53,8 @@ class Deletetask(DeleteView):
 @login_required
 def listtasks(request):
     table = CeleryTaskTable(CeleryTask.objects.all())
-    RequestConfig(request).configure(table)
+    #RequestConfig(request).configure(table)
+    RequestConfig(request, paginate={'per_page': 10}).configure(table)
     return render(request, 'schedulerexample/list_task.html', {'table': table})
 
 @login_required
@@ -65,7 +66,7 @@ def addperiodictask(request):
     else:
         form = SchedulePeriodicTaskForm
     table = CeleryTaskTable(CeleryTask.objects.all())
-    RequestConfig(request).configure(table)
+    RequestConfig(request, paginate={'per_page': 10}).configure(table)
     return render(request, 'schedulerexample/add_periodic_task.html', {'form' : form, 'table': table})
 
 def addonetimetask(request):
